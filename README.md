@@ -8,7 +8,7 @@ Senior software engineer, self-taught since 11. Nearly two decades of shipping p
 
 ### What I'm Building
 
-**[quantedge-ta](https://github.com/dluksza/quantedge-ta)** — Technical analysis that takes streaming seriously.
+**[quantedge-ta](https://github.com/dluksza/quantedge)** — Technical analysis that takes streaming seriously.
 
 Most TA libraries assume batch data. Real trading systems get one tick at a time. `quantedge-ta` is built for live feeds: O(1) updates, forming-bar repainting, type-safe convergence, no silent garbage values.
 
@@ -27,8 +27,8 @@ for kline in live_stream {
 
 [![crates.io](https://img.shields.io/crates/v/quantedge-ta.svg)](https://crates.io/crates/quantedge-ta)
 [![docs.rs](https://docs.rs/quantedge-ta/badge.svg)](https://docs.rs/quantedge-ta)
-[![CI](https://github.com/dluksza/quantedge-ta/actions/workflows/ci.yml/badge.svg)](https://github.com/dluksza/quantedge-ta/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/dluksza/quantedge-ta/branch/main/graph/badge.svg)](https://codecov.io/gh/dluksza/quantedge-ta)
+[![CI](https://github.com/dluksza/quantedge/actions/workflows/ci.yml/badge.svg)](https://github.com/dluksza/quantedge/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/dluksza/quantedge/branch/main/graph/badge.svg)](https://codecov.io/gh/dluksza/quantedge)
 
 ---
 
@@ -46,7 +46,7 @@ for kline in live_stream {
 
 | Project | Stack | Status |
 |---|---|---|
-| [quantedge-ta](https://github.com/dluksza/quantedge-ta) | Rust | Active, [on crates.io](https://crates.io/crates/quantedge-ta) |
+| [quantedge](https://github.com/dluksza/quantedge) | Rust | Active, [on crates.io](https://crates.io/crates/quantedge-ta) |
 | [HabitChallenge](https://habitchallenge.co/) | Flutter / Dart | 263K+ downloads, 4.7★ ([Play Store](https://play.google.com/store/apps/details?id=org.luksza.HabitChallenge&utm_source=home) · [App Store](http://apple.co/2xU40sy?pt=126711173&ct=home)) |
 | [screenful](https://github.com/dluksza/screenful) | Lua / AwesomeWM | Stable, 160+ ⭐ |
 
