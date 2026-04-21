@@ -47,7 +47,7 @@ for kline in live_stream {
 | Project | Stack | Status |
 |---|---|---|
 | [quantedge-ta](https://github.com/dluksza/quantedge-ta) | Rust | Active, [on crates.io](https://crates.io/crates/quantedge-ta) |
-| [HabitChallenge](https://habitchallenge.co/) | Flutter / Dart | 163K+ downloads, 4.7★ ([Play Store](https://play.google.com/store/apps/details?id=org.luksza.HabitChallenge&utm_source=home) · [App Store](http://apple.co/2xU40sy?pt=126711173&ct=home)) |
+| [HabitChallenge](https://habitchallenge.co/) | Flutter / Dart | 263K+ downloads, 4.7★ ([Play Store](https://play.google.com/store/apps/details?id=org.luksza.HabitChallenge&utm_source=home) · [App Store](http://apple.co/2xU40sy?pt=126711173&ct=home)) |
 | [screenful](https://github.com/dluksza/screenful) | Lua / AwesomeWM | Stable, 160+ ⭐ |
 
 ---
