@@ -1,31 +1,61 @@
 ## Hi, I'm Darek 👋
 
-Senior software engineer, self-taught since 11. Nearly two decades of shipping production code across mobile, backend, and developer tooling. Now building open-source infrastructure for algorithmic trading in Rust.
+I've been writing software for two decades, and shipping it for nearly that long. My code lives in Gerrit (the review infrastructure behind Android and Chromium), in 263K+ downloads HabitChallenge Android/iOS, and now in [`quantedge-ta`](https://crates.io/crates/quantedge-ta), a Rust crate for streaming technical analysis. Self-taught since 11. GSoC alumnus, Eclipse Top Contributor 2011.
 
-**Currently:** Streaming technical analysis library → [`quantedge-ta`](https://crates.io/crates/quantedge-ta) on crates.io
+**Currently:** [`quantedge`](https://github.com/dluksza/quantedge), a Rust workspace for streaming-first systematic trading. The first crate, [`quantedge-ta`](https://crates.io/crates/quantedge-ta), is on crates.io. Engine, sim, and order book are next.
+
+**Available for Rust / Flutter contract work.** Reach me on [LinkedIn](https://linkedin.com/in/dluksza).
 
 ---
 
 ### What I'm Building
 
-**[quantedge-ta](https://github.com/dluksza/quantedge)** — Technical analysis that takes streaming seriously.
+**[quantedge](https://github.com/dluksza/quantedge)** is a Cargo workspace for systematic trading in Rust. Streaming-first by design.
 
-Most TA libraries assume batch data. Real trading systems get one tick at a time. `quantedge-ta` is built for live feeds: O(1) updates, forming-bar repainting, type-safe convergence, no silent garbage values.
+The thing most TA libraries get wrong: they treat the current bar as final. In live trading, the bar you care about is the one still forming, ticking second by second. `quantedge` makes that explicit in the type system. A strategy declares exactly what it reads up front, the engine surfaces only that, and tests panic loudly the moment evaluation drifts from declaration.
 
 ```rust
-use quantedge_ta::{Sma, SmaConfig};
-use std::num::NonZero;
+use quantedge_strategy::{
+    EmaConfig, MarketSide, MarketSignal, MarketSignalConfig,
+    MarketSnapshot, SignalGenerator, Timeframe, nz,
+};
 
-let mut sma = Sma::new(SmaConfig::close(NonZero::new(20).unwrap()));
+#[derive(Default)]
+struct EmaCross { ema9: EmaConfig, ema21: EmaConfig }
 
-for kline in live_stream {
-    if let Some(value) = sma.compute(&kline) {
-        println!("SMA(20): {value}");
+impl SignalGenerator for EmaCross {
+    fn id(&self) -> &'static str { "ema_9_21_cross" }
+    fn name(&self) -> &'static str { "EMA9/EMA21 cross (H4)" }
+
+    // Declare exactly what evaluate() will read.
+    // Anything undeclared panics in tests via FakeEngine.
+    fn configure<C: MarketSignalConfig>(&self, c: C) -> C {
+        c.require_closed_bars(1)
+            .require_timeframes(&[Timeframe::HOUR_4])
+            .register(&self.ema9)
+            .register(&self.ema21)
+    }
+
+    fn evaluate(&self, snap: &impl MarketSnapshot) -> Option<MarketSignal> {
+        let h4 = snap.for_timeframe(Timeframe::HOUR_4);
+        let prev = h4.closed(0)?;       // last closed bar
+        let now  = h4.forming();        // currently-building bar
+
+        let (p9, p21) = (prev.value(&self.ema9)?, prev.value(&self.ema21)?);
+        let (n9, n21) = (now.value(&self.ema9)?, now.value(&self.ema21)?);
+
+        (p9 <= p21 && n9 > n21).then(|| {
+            MarketSignal::from_forming(self, snap, Timeframe::HOUR_4, "bull_cross")
+                .with_side(MarketSide::Long)
+                .add_reason("bull_cross", "EMA9 crossed above EMA21")
+                .build()
+        })
     }
 }
 ```
 
 [![crates.io](https://img.shields.io/crates/v/quantedge-ta.svg)](https://crates.io/crates/quantedge-ta)
+[![downloads](https://img.shields.io/crates/d/quantedge-ta.svg)](https://crates.io/crates/quantedge-ta)
 [![docs.rs](https://docs.rs/quantedge-ta/badge.svg)](https://docs.rs/quantedge-ta)
 [![CI](https://github.com/dluksza/quantedge/actions/workflows/ci.yml/badge.svg)](https://github.com/dluksza/quantedge/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/dluksza/quantedge/branch/main/graph/badge.svg)](https://codecov.io/gh/dluksza/quantedge)
@@ -34,20 +64,18 @@ for kline in live_stream {
 
 ### Background
 
-- 🦀 **Rust** — Built trading systems across three languages (Dart → Elixir → Rust). The Dart version still runs unattended with 1yr+ uptime. Parts of the Rust version became [`quantedge-ta`](https://crates.io/crates/quantedge-ta).
-- 🎓 **GSoC alumni** — Apache Cocoon, eGit (Eclipse Foundation). Eclipse Top Contributor 2011.
-- 📦 **Top 10 Gerrit contributor** — Code review infrastructure behind Android, Chromium, and LibreOffice.
-- 📱 **Mobile** — Flutter, React Native, Dart. Speaker at Flutter London and Confitura Warsaw (code review, 200+ audience).
-- 🏢 **19 years professional** — NCDC Szczecin (6yr), CollabNet Berlin (6yr), Adaptavist London (5yr), now independent contractor.
-
+- 🦀 **Rust today, three languages of trading-bot scar tissue.** Built the same trading system across Dart, Elixir, and Rust. The Dart version still runs unattended with 1yr+ uptime. The Rust version became [`quantedge`](https://github.com/dluksza/quantedge).
+- 📦 **Contributed to Gerrit Code Review and JGit**, the code-review and Java Git stack used by Android, Chromium, and LibreOffice.
+- 🎓 **GSoC alumnus.** Apache Cocoon, eGit (Eclipse Foundation). Eclipse Top Contributor 2011.
+- 📱 **Mobile.** Flutter, React Native. Conference talks at [Flutter London](https://www.youtube.com/watch?v=eo84u6LmlLA) and Confitura Warsaw
 ---
 
 ### Selected Projects
 
 | Project | Stack | Status |
 |---|---|---|
-| [quantedge](https://github.com/dluksza/quantedge) | Rust | Active, [on crates.io](https://crates.io/crates/quantedge-ta) |
-| [HabitChallenge](https://habitchallenge.co/) | Flutter / Dart | 263K+ downloads, 4.7★ ([Play Store](https://play.google.com/store/apps/details?id=org.luksza.HabitChallenge&utm_source=home) · [App Store](http://apple.co/2xU40sy?pt=126711173&ct=home)) |
+| [quantedge](https://github.com/dluksza/quantedge) | Rust | Active workspace. First crate [`quantedge-ta`](https://crates.io/crates/quantedge-ta) on crates.io; engine/sim/order book in flight. |
+| [HabitChallenge](https://habitchallenge.co/) | Flutter / Dart | 263K+ downloads, 4.7★ ([Play Store](https://play.google.com/store/apps/details?id=org.luksza.HabitChallenge) · [App Store](http://apple.co/2xU40sy)) |
 | [screenful](https://github.com/dluksza/screenful) | Lua / AwesomeWM | Stable, 160+ ⭐ |
 
 ---
