@@ -1,6 +1,6 @@
 ## Hi, I'm Darek 👋
 
-I've been writing software for two decades, and shipping it for nearly that long. My code lives in Gerrit (the review infrastructure behind Android and Chromium), in 263K+ downloads HabitChallenge Android/iOS, and now in [`quantedge-ta`](https://crates.io/crates/quantedge-ta), a Rust crate for streaming technical analysis. Self-taught since 11. GSoC alumnus, Eclipse Top Contributor 2011.
+I've been writing software for two decades, and shipping it for nearly that long. My code lives in Gerrit (the review infrastructure behind Android and Chromium), in HabitChallenge (263K+ downloads on Android and iOS), and now in [`quantedge-ta`](https://crates.io/crates/quantedge-ta), a Rust crate for streaming technical analysis. Self-taught since 11. GSoC alumnus, Eclipse Top Contributor 2011.
 
 **Currently:** [`quantedge`](https://github.com/dluksza/quantedge), a Rust workspace for streaming-first systematic trading. The first crate, [`quantedge-ta`](https://crates.io/crates/quantedge-ta), is on crates.io. Engine, sim, and order book are next.
 
@@ -68,6 +68,7 @@ impl SignalGenerator for EmaCross {
 - 📦 **Contributed to Gerrit Code Review and JGit**, the code-review and Java Git stack used by Android, Chromium, and LibreOffice.
 - 🎓 **GSoC alumnus.** Apache Cocoon, eGit (Eclipse Foundation). Eclipse Top Contributor 2011.
 - 📱 **Mobile.** Flutter, React Native. Conference talks at [Flutter London](https://www.youtube.com/watch?v=eo84u6LmlLA) and Confitura Warsaw
+
 ---
 
 ### Selected Projects
